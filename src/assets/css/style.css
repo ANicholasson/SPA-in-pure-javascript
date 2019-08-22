@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css?family=Satisfy&display=swap');
+
+html, body {
+    height: 100%;
+}
+
+.auth-form {
+    margin: 0 auto;
+    padding: 20px;
+    border: 0;
+    border-radius: 5px;
+    width: 85%;
+    max-width: 550px;
+    background-color: white;
+    -webkit-box-shadow: 20px 7px 21px -5px rgba(0,0,0,0.75);
+    -moz-box-shadow: 7px 7px 21px -5px rgba(0,0,0,0.75);
+    box-shadow: 7px 7px 21px -5px rgba(0,0,0,0.75);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%); /* IE 9 */
+    -webkit-transform: translate(-50%, -50%); /* Chrome, Safari, Opera */	
+}
+
+.carousel-style {
+    margin-top: 50px;
+}
+
+.carousel-btn {
+    height: 400px;
+}
+
+.product-section {
+    margin-top: 30px;
+}
+
+.add-btn {
+    margin-top: 20px;
+}
+
+.row {
+    margin-bottom: 0;
+}
+
+.submit-btn {
+    width: 100%;
+}
+
+.form-header {
+    font-family: 'Satisfy', cursive;
+}
+
+.product-item {
+    background-color: rgb(240, 240, 240);
+    padding: 10px;
+    min-height: 195px;
+    height: 100%;
+    margin-bottom: 10px;
+}
+
+.add-height {
+    min-height: 195px;
+    height: 195px;
+}
+
+.product-img {
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+}
+
+.product-name, .product-price, .product-desc {
+    margin-top: 0;
+}
+
+.product-name {
+    font-weight: 600;
+    font-size: 25px;
+    margin-bottom: 0;
+}
+
+.product-price {
+    font-weight: 600;
+    margin-bottom: 0;
+    font-size: 20px;
+}
+
+.product-desc {
+    font-size: 16px
+}
