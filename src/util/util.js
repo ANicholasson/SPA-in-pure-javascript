@@ -7,7 +7,7 @@ const renderContentWithNav = (content) => {
 };
 
 const productItem = (img, name, price, desc) => {
-    return (`
+    return (/*html*/`
         <div class="row product-item">
             <div class="col m3 s12 custom-wrapper valign-wrapper center-align add-height">
                 <img class="product-img materialboxed" width="650" src="` + img + `" alt="image of product">
@@ -15,9 +15,9 @@ const productItem = (img, name, price, desc) => {
             <div class="col m9 s12">
                 <div class="row">
                     <div class="col s12">
-                        <p class="product-name">` + name + `</p>
-                        <p class="product-price">` + price + ` kr</p>
-                        <p class="product-desc">` + desc + `</p>
+                        <p class="product-name">` + name + /*html*/`</p>
+                        <p class="product-price">` + price + /*html*/` kr</p>
+                        <p class="product-desc">` + desc + /*html*/`</p>
                     </div>
                 </div>
             </div>
