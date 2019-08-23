@@ -10,7 +10,7 @@ import RouterUtils from './util/RouterUtils.js';
 
 // List of supported routes. Any url other than these routes will throw a 404 error
 const routes = {
-    '/':  Home,
+    '/': Home,
     '/login': Login,
     '/register': Register,
     '/newproduct': NewProduct,
@@ -31,6 +31,13 @@ const router = async () => {
     // Get the page from our hash of supported routes.
     // If the parsed URL is not in our list of supported routes, select the 404 page instead
     let page = routes[parsedURL] ? routes[parsedURL] : Error404
+
+    if (parsedURL === '/login' || parsedURL === '/register') {
+        document.getElementsByTagName("body")[0].classList.add("background");
+    } else {
+        document.getElementsByTagName("body")[0].classList.remove("background");
+    }
+
     content.innerHTML = await page.render();
     await page.after_render();
 }
