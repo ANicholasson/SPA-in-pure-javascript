@@ -15,7 +15,8 @@ let Navbar = {
                 <li><a href="">Username</a></li>
             </ul>
         `);
-    }
+    },
+    after_render: async () => { }
 }
 
 export default Navbar;

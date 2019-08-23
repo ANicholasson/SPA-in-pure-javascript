@@ -1,18 +1,19 @@
-import Home from './views/containers/Home';
-import Login from '/views/containers/Login';
-import Register from '/views/containers/Register';
-import NewProduct from '/views/containers/NewProduct';
-import ProductPage from '/views/containers/ProductPage';
-import Navbar from '/views/containers/Navbar';
+import Home from './views/containers/Home.js';
+import Login from './views/containers/Login.js';
+import Register from './views/containers/Register.js';
+import NewProduct from './views/containers/NewProduct.js';
+import ProductPage from './views/containers/ProductPage.js';
+import Navbar from './views/containers/Navbar.js';
+import Error404 from './views/containers/Error404.js';
 
-import RouterUtils from './util/RouterUtils';
+import RouterUtils from './util/RouterUtils.js';
 
 // List of supported routes. Any url other than these routes will throw a 404 error
 const routes = {
-    '/': Home,
+    '/':  Home,
     '/login': Login,
     '/register': Register,
-    '/newProduct': NewProduct,
+    '/newproduct': NewProduct,
     '/product/:id': ProductPage
 };
 
@@ -39,3 +40,11 @@ window.addEventListener('hashchange', router);
 
 // Listen on page load:
 window.addEventListener('load', router);
+
+// Materialize initialize stuff (TODO put into own init.js file)
+M.Sidenav.init(document.querySelector('.sidenav'), {});
+M.Materialbox.init(document.querySelector('.materialboxed'), {});
+let instance = M.Carousel.init(document.querySelector('.carousel'), {
+    fullWidth: true,
+    indicators: true
+});

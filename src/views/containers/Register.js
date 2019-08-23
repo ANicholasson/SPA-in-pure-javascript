@@ -63,7 +63,8 @@ let Register = {
                 </div>
             </div>
         `);
-    }
+    },
+    after_render: async () => { }
 }
 
 export default Register;

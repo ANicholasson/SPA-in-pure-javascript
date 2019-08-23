@@ -53,7 +53,8 @@ let ProductPage = {
                 </p>
             </div>
         `);
-    }
+    },
+    after_render: async () => { }
 }
 
 export default ProductPage;

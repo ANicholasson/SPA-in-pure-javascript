@@ -1,12 +1,4 @@
-const rootRender = (obj) => {
-    document.getElementById('root').innerHTML = obj;
-};
-
-const renderContentWithNav = (content) => {
-    document.getElementById('root').innerHTML = navbar() + '\n' + content;
-};
-
-const productItem = (img, name, price, desc) => {
+const ProductItem = (img, name, price, desc) => {
     return (/*html*/`
         <div class="row product-item">
             <div class="col m3 s12 custom-wrapper valign-wrapper center-align add-height">
@@ -24,3 +16,5 @@ const productItem = (img, name, price, desc) => {
         </div>
     `);
 }
+
+export default ProductItem;

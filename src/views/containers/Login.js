@@ -29,7 +29,8 @@ let Login = {
                 </div>
             </div>
         `);
-    }
+    },
+    after_render : async () => {}
 }
 
 export default Login;
