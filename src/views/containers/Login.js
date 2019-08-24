@@ -1,4 +1,4 @@
-import { auth } from '../../../store/actions/authActions.js';
+import { auth } from '../../store/actions/authActions.js';
 
 let Login = {
     render : async () => {
@@ -39,8 +39,6 @@ let Login = {
             event.preventDefault();
             let email = document.getElementById("email").value;
             let password = document.getElementById("password").value;
-            console.log("event triggered");
-            console.log("First:", email, password);
             auth(email, password);
         });
         addEventListener("keyup", (event) => {
@@ -48,7 +46,6 @@ let Login = {
                 event.preventDefault();
                 let email = document.getElementById("email").value;
                 let password = document.getElementById("password").value;
-                console.log("event triggered");
                 auth(email, password);
             }
         })

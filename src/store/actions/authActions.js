@@ -1,5 +1,5 @@
 import {AUTH_START, AUTH_SUCCESS, AUTH_FAILED, AUTH_LOGOUT} from "../actionTypes.js";
-import  { store } from '../../src/index.js';
+import  { store } from '../../index.js';
 
 export const authStart = () => {
     console.log("authStart() is called");
@@ -35,7 +35,6 @@ export const logout = () => {
 
 
 export const auth = (email, password) => {
-    console.log("Second:", email, password);
     store.dispatch(authStart());
     let statusOk = false;
     fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAg6_U0miWrh_L9QbIzJMXlLAc_wlSQmiI', {
@@ -52,7 +51,6 @@ export const auth = (email, password) => {
         statusOk = json.ok;
         return json.json();
     }).then(response => {
-        console.log(response);
         if (statusOk) {
             const expirationDate = new Date(new Date().getTime() + response.expiresIn * 1000);
             let decoded = parseJwt(response.idToken);
@@ -61,7 +59,6 @@ export const auth = (email, password) => {
             localStorage.setItem('expirationDate', expirationDate);
             localStorage.setItem('memberId', response.localId);
             store.dispatch(authSuccess(response.idToken, response.localId, decoded.email));
-            console.log("state:", store.getState());
             // Redirect user to homepage
             window.location.replace('/public/#/');
         }

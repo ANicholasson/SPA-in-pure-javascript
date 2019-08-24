@@ -1,11 +1,8 @@
 import  { store } from '../../index.js';
-import { logout } from '../../../store/actions/authActions.js';
+import { logout } from '../../store/actions/authActions.js';
 
 let linkItem = () => {
-    let link = `<a>` + store.getState().email + `</a>`;
-    
-    console.log(store.getState());
-    return link;
+    return `<a>` + store.getState().email + `</a>`;
 }
 
 let Navbar = {

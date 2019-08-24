@@ -8,9 +8,9 @@ import Error404 from './views/containers/Error404.js';
 
 import RouterUtils from './util/RouterUtils.js';
 
-import authReducer from '../store/reducers/reducer.js';
+import authReducer from './store/reducers/reducer.js';
 
-import { authCheckState } from '../store/actions/authActions.js';
+import { authCheckState } from './store/actions/authActions.js';
 
 // Create redux store
 export let store = Redux.createStore(authReducer);
