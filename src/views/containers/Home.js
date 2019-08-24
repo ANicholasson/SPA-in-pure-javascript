@@ -10,7 +10,7 @@ let Home = {
             
                 + /*html*/`
                 <!-- New Item Button -->
-                <a class="btn-floating add-btn btn-large waves-effect waves-light red right"><i class="material-icons">add</i></a>
+                <a href="/public/#/newproduct" class="btn-floating add-btn btn-large waves-effect waves-light red right"><i class="material-icons">add</i></a>
             </div>
         `);
     },

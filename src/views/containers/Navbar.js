@@ -1,22 +1,30 @@
+import  { store } from '../../index.js';
+import { logout } from '../../../store/actions/authActions.js';
+
+let linkItem = () => {
+    let link = `<a>` + store.getState().email + `</a>`;
+    
+    console.log(store.getState());
+    return link;
+}
+
 let Navbar = {
     render : async () => {
         return (/*html*/ `
             <nav class="blue">
                 <div class="nav-wrapper container">
-                    <a href="#!" class="brand-logo">Logo</a>
-                    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a href="">Username</a></li>
+                    <a href="#" class="logo">Letærn</a>
+                    <ul id="nav-mobile" class="right">
+                        <li>` + linkItem() + /*html*/`</li>
+                        <li><a href="/public/#/login" id="logout">Logout</a></li>
                     </ul>
                 </div>
             </nav>
-
-            <ul class="sidenav" id="mobile-demo">
-                <li><a href="">Username</a></li>
-            </ul>
         `);
     },
-    after_render: async () => { }
+    after_render : async () => {
+        document.getElementById('logout').addEventListener('click', () => logout())
+    }
 }
 
 export default Navbar;

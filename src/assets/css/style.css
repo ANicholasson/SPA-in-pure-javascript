@@ -4,6 +4,19 @@ html, body {
     height: 100%;
 }
 
+.logo {
+    font-size: 30px;
+    font-family: 'Satisfy', cursive;
+}
+
+.background {
+    background: url('../img/background.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
 .auth-form {
     margin: 0 auto;
     padding: 20px;
