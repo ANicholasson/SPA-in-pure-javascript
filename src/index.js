@@ -8,6 +8,14 @@ import Error404 from './views/containers/Error404.js';
 
 import RouterUtils from './util/RouterUtils.js';
 
+import authReducer from '../store/reducers/reducer.js';
+
+// Create redux store
+export let store = Redux.createStore(
+    authReducer, /* preloadedState, */
+    +  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    );
+
 // List of supported routes. Any url other than these routes will throw a 404 error
 const routes = {
     '/': Home,
@@ -23,6 +31,7 @@ const routes = {
  */
 const router = async () => {
     // Lazy load view element:
+    const navbar = null || document.getElementById('navbar');
     const content = null || document.getElementById('root');
     // Get the parsed URl from the addressbar
     let request = RouterUtils.parseRequestURL()
@@ -33,8 +42,10 @@ const router = async () => {
     let page = routes[parsedURL] ? routes[parsedURL] : Error404
 
     if (parsedURL === '/login' || parsedURL === '/register') {
+        navbar.innerHTML = "";
         document.getElementsByTagName("body")[0].classList.add("background");
     } else {
+        navbar.innerHTML = await Navbar.render();
         document.getElementsByTagName("body")[0].classList.remove("background");
     }
 

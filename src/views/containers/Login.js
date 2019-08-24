@@ -1,3 +1,5 @@
+import { auth } from '../../../store/actions/authActions.js';
+
 let Login = {
     render : async () => {
         return (/*html*/`
@@ -38,7 +40,8 @@ let Login = {
             let email = document.getElementById("email").value;
             let password = document.getElementById("password").value;
             console.log("event triggered");
-            loginRequest(email, password);
+            console.log("First:", email, password);
+            auth(email, password);
         });
         addEventListener("keyup", (event) => {
             if (event.keyCode === 13) {
@@ -46,36 +49,10 @@ let Login = {
                 let email = document.getElementById("email").value;
                 let password = document.getElementById("password").value;
                 console.log("event triggered");
-                loginRequest(email, password);
+                auth(email, password);
             }
         })
     }
-}
-
-function loginRequest(email, password) {
-    console.log("function fired....");
-    let statusOk = false;
-    fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAg6_U0miWrh_L9QbIzJMXlLAc_wlSQmiI', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            email: email,
-            password: password,
-            returnSecureToken: true
-        })
-    }).then(json => {
-        statusOk = json.ok;
-        return json.json();
-    }).then(resp => {
-        console.log(resp);
-        if (statusOk) {
-            window.location.replace('/public/#/');
-        }
-    }).catch(err => {
-        console.log(err);
-    });
 }
 
 export default Login;
