@@ -10,11 +10,10 @@ import RouterUtils from './util/RouterUtils.js';
 
 import authReducer from '../store/reducers/reducer.js';
 
+import { authCheckState } from '../store/actions/authActions.js';
+
 // Create redux store
-export let store = Redux.createStore(
-    authReducer, /* preloadedState, */
-    +  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-    );
+export let store = Redux.createStore(authReducer);
 
 // List of supported routes. Any url other than these routes will throw a 404 error
 const routes = {
@@ -22,7 +21,7 @@ const routes = {
     '/login': Login,
     '/register': Register,
     '/newproduct': NewProduct,
-    '/product/:id': ProductPage
+    '/product': ProductPage
 };
 
 /**
@@ -41,11 +40,28 @@ const router = async () => {
     // If the parsed URL is not in our list of supported routes, select the 404 page instead
     let page = routes[parsedURL] ? routes[parsedURL] : Error404
 
-    if (parsedURL === '/login' || parsedURL === '/register') {
+    // Get token from localhost
+    const token = localStorage.getItem('token');
+    // Condition for accessing routes
+    if (parsedURL !== '/login' && parsedURL !== '/register' && page !== Error404) {
+        // See if user is logged in
+        if (token === null) {
+            window.location.replace('/public/#/login');
+            content.innerHTML = await page.render();
+            await page.after_render();
+        } 
+    } 
+
+    if (parsedURL === '/login' || parsedURL === '/register' || page === Error404) {
+        // See if user is logged in
+        if (token !== null) {
+            window.location.replace('/public/#/');
+        }
         navbar.innerHTML = "";
         document.getElementsByTagName("body")[0].classList.add("background");
     } else {
         navbar.innerHTML = await Navbar.render();
+        await Navbar.after_render();
         document.getElementsByTagName("body")[0].classList.remove("background");
     }
 
@@ -59,10 +75,14 @@ window.addEventListener('hashchange', router);
 // Listen on page load:
 window.addEventListener('load', router);
 
+// On page load, see if user is logged in
+window.onload = authCheckState();
+
 // Materialize initialize stuff (TODO put into own init.js file)
 M.Sidenav.init(document.querySelector('.sidenav'), {});
 M.Materialbox.init(document.querySelector('.materialboxed'), {});
-let instance = M.Carousel.init(document.querySelector('.carousel'), {
+M.Carousel.init(document.querySelector('.carousel'), {
     fullWidth: true,
     indicators: true
 });
+M.Dropdown.init(document.querySelector('.dropdown-trigger'), {});

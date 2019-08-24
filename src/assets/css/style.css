@@ -4,6 +4,11 @@ html, body {
     height: 100%;
 }
 
+.logo {
+    font-size: 30px;
+    font-family: 'Satisfy', cursive;
+}
+
 .background {
     background: url('../img/background.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;

@@ -38,7 +38,7 @@ let NewProduct = {
                                     <a class="waves-effect green waves-light btn-large submit-btn">Add Product</a>
                                 </div>
                                 <div class="col s6">
-                                    <a class="waves-effect red waves-light btn-large submit-btn">Cancel</a>
+                                    <a href="#" class="waves-effect red waves-light btn-large submit-btn">Cancel</a>
                                 </div>
                             </div>
                         </form>

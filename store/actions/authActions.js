@@ -70,6 +70,22 @@ export const auth = (email, password) => {
     });
 }
 
+export const authCheckState = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        store.dispatch(logout());
+    } else {
+        const expirationDate = new Date(localStorage.getItem('expirationDate'));
+        if (expirationDate <= new Date()) {
+            store.dispatch(logout());
+        } else {
+            const userId = localStorage.getItem('userId');
+            let decoded = parseJwt(token);
+            store.dispatch(authSuccess(token, userId, decoded.email));
+        }
+    }
+}
+
 function parseJwt (token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
