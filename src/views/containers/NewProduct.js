@@ -1,3 +1,6 @@
+import { addToPosts, getNewId } from '../../dummy/Posts.js';
+import  { store } from '../../index.js';
+
 let NewProduct = {
     render : async () => {
         return (/*html*/ `
@@ -20,8 +23,8 @@ let NewProduct = {
                             </div>
                             <div class="row">
                                 <div class="input-field col s12">
-                                    <textarea id="textarea1" class="materialize-textarea"></textarea>
-                                    <label for="textarea1">Product Description</label>
+                                    <textarea id="product_desc" class="materialize-textarea"></textarea>
+                                    <label for="product_desc">Product Description</label>
                                 </div>
                             </div>
                             <div class="file-field input-field">
@@ -35,7 +38,7 @@ let NewProduct = {
                             </div>
                             <div class="row">
                                 <div class="col s6">
-                                    <a class="waves-effect green waves-light btn-large submit-btn">Add Product</a>
+                                    <a id="new-product-btn" class="waves-effect green waves-light btn-large submit-btn">Add Product</a>
                                 </div>
                                 <div class="col s6">
                                     <a href="#" class="waves-effect red waves-light btn-large submit-btn">Cancel</a>
@@ -47,7 +50,23 @@ let NewProduct = {
             </div>
         `);
     },
-    after_render: async () => { }
+    after_render: async () => { 
+        document.getElementById('new-product-btn').addEventListener("click", (event) => {
+            event.preventDefault();
+            let name = document.getElementById('product_title').value;
+            let price = document.getElementById('product_price').value;
+            let desc = document.getElementById('product_desc').value;
+            let newPost = {
+                id: getNewId(),
+                name: name,
+                price: price,
+                desc: desc,
+                seller: store.getState().email
+            }
+            addToPosts(newPost);
+            window.location.replace("/public/#/");
+        });
+    }
 }
 
 export default NewProduct;

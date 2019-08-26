@@ -1,20 +1,32 @@
 import ProductItem from '../components/ProductItem.js';
+import { getAllPosts } from '../../dummy/Posts.js';
 
 let Home = {
     render : async () => {
         return (/*html*/`
             <div class="container">
-                <h1>Items for sale</h1>
-                ` + ProductItem("../../assets/img/exampleProd.jpg", "Bullshit Laptop x123", 4500, 
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.")
-            
-                + /*html*/`
-                <!-- New Item Button -->
-                <a href="/public/#/newproduct" class="btn-floating add-btn btn-large waves-effect waves-light red right"><i class="material-icons">add</i></a>
+                <div class="row">
+                    <div class="col s10">
+                        <h1>Items for sale</h1>
+                    </div>
+                    <div class="col s2">
+                        <a href="/public/#/newproduct" class="btn-floating add-btn btn-large waves-effect waves-light red right">
+                            <i class="material-icons">add</i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div id="posts-content"><div>
             </div>
         `);
     },
-    after_render : async () => {}
+    after_render : async () => {
+        let content = "";
+        getAllPosts().forEach(post => {
+            content += ProductItem(post.id, post.img, post.name, post.price, post.desc, post.seller);
+        });
+        document.getElementById('posts-content').innerHTML = content;
+    }
 }
 
 export default Home;
