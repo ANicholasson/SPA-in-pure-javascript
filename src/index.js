@@ -21,7 +21,7 @@ const routes = {
     '/login': Login,
     '/register': Register,
     '/newproduct': NewProduct,
-    '/product': ProductPage
+    '/product/:id': ProductPage
 };
 
 /**
