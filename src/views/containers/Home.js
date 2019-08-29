@@ -15,7 +15,6 @@ let Home = {
                         </a>
                     </div>
                 </div>
-                
                 <div id="posts-content"><div>
             </div>
         `);
@@ -23,7 +22,7 @@ let Home = {
     after_render : async () => {
         let content = "";
         getAllPosts().forEach(post => {
-            content += ProductItem(post.id, post.img, post.name, post.price, post.desc, post.seller);
+            content += ProductItem(post.id, post.img[0], post.name, post.price, post.desc, post.seller);
         });
         document.getElementById('posts-content').innerHTML = content;
     }

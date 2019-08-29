@@ -77,12 +77,3 @@ window.addEventListener('load', router);
 
 // On page load, see if user is logged in
 window.onload = authCheckState();
-
-// Materialize initialize stuff (TODO put into own init.js file)
-M.Sidenav.init(document.querySelector('.sidenav'), {});
-M.Materialbox.init(document.querySelector('.materialboxed'), {});
-M.Carousel.init(document.querySelector('.carousel'), {
-    fullWidth: true,
-    indicators: true
-});
-M.Dropdown.init(document.querySelector('.dropdown-trigger'), {});
