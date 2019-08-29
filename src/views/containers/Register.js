@@ -1,3 +1,5 @@
+import { auth } from '../../store/actions/authActions.js';
+
 let Register = {
     render : async () => {
         return (/*html*/ `
@@ -79,7 +81,7 @@ function registerRequest(email, password) {
     }).then(resp => {
         console.log(resp);
         if (statusOk) {
-            window.location.replace('/public/#/');
+            auth(email, password);
         }
     }).catch(err => {
         console.log(err);
