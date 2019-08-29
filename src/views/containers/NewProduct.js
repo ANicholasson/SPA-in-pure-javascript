@@ -72,11 +72,13 @@ let NewProduct = {
     after_render: () => { 
         document.getElementById('delete-btn').addEventListener('click', () => {
             let images = document.getElementsByClassName('img-preview');
+            let imgArr = [];
             Array.from(images).forEach((img) => {
+                imgArr.push(img);
+            });
+            imgArr.forEach(img => {
                 img.addEventListener('click', (event) => {
-                    console.log("image clicked:", event);
-                    console.log("src:", event.originalTarget.src);
-                    deleteImage(event.originalTarget.src);
+                    deleteImage(imgArr.indexOf(img));
                     let content = '';
                     getAllImages().forEach(img => {
                         content += previewImage(img);
@@ -84,7 +86,6 @@ let NewProduct = {
                     document.getElementById("images-to-show").innerHTML = content;
                 })
             });
-            document.get
         });
 
         // File input change
@@ -118,16 +119,16 @@ let NewProduct = {
                 desc: desc,
                 seller: store.getState().email
             }
-
             if (name.trim(' ') !== '' && price !== '' && desc.trim(' ' !== '')) {
                 addToPosts(newPost);
+                clearList();
                 window.location.replace("/public/#/");
-
             }
         });
 
         // On Clear
         document.getElementById('clear-btn').addEventListener('click', () => {
+            clearList();
             document.getElementById("images-to-show").innerHTML = '';
         });
     }
@@ -136,7 +137,8 @@ let NewProduct = {
 function setupReader(file) {
     let reader = new FileReader();
     reader.addEventListener('load', () => {
-        addImage(reader.result);
+        let imgSrc = reader.result;
+        addImage(imgSrc);
         let content = '';
         getAllImages().forEach(img => {
             content += previewImage(img);
