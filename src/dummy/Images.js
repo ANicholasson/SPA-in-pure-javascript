@@ -5,7 +5,7 @@ export function addImage(image) {
 }
 
 export function deleteImage(image) {
-    listOfImages.pop(image);
+    listOfImages.splice(image, 1);
 }
 
 export function getAllImages() {
