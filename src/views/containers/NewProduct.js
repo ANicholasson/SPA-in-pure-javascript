@@ -77,7 +77,7 @@ let NewProduct = {
                 imgArr.push(img);
             });
             imgArr.forEach(img => {
-                img.addEventListener('click', (event) => {
+                img.addEventListener('click', () => {
                     deleteImage(imgArr.indexOf(img));
                     let content = '';
                     getAllImages().forEach(img => {
@@ -147,7 +147,9 @@ function setupReader(file) {
     });
     if (file) {
         reader.readAsDataURL(file);
-    }
+    } 
+
+    
 }
 
 function previewImage(image) {

@@ -12,15 +12,28 @@ let Navbar = {
                 <div class="nav-wrapper container">
                     <a href="#" class="logo">Letærn</a>
                     <ul id="nav-mobile" class="right">
-                        <li>` + linkItem() + /*html*/`</li>
-                        <li><a href="/public/#/login" id="logout">Logout</a></li>
+                        <div id="navbar-links"></div>
                     </ul>
                 </div>
             </nav>
         `);
     },
     after_render : async () => {
-        document.getElementById('logout').addEventListener('click', () => logout())
+        const token = localStorage.getItem('token');
+        let navItems = '';
+        if (token === null) {
+            navItems = (/*html*/`
+                <li><a href="/public/#/login">Login</a></li>
+            `)
+            document.getElementById('navbar-links').innerHTML = navItems;
+        } else {
+            navItems = (/*html*/`
+                <li><a>` + store.getState().email + /*html*/`</a></li>
+                <li><a href="/public/#/login" id="logout">Logout</a></li>
+            `);
+            document.getElementById('navbar-links').innerHTML = navItems;
+            document.getElementById('logout').addEventListener('click', () => logout());
+        }
     }
 }
 

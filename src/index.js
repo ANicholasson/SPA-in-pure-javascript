@@ -43,14 +43,14 @@ const router = async () => {
     // Get token from localhost
     const token = localStorage.getItem('token');
     // Condition for accessing routes
-    if (parsedURL !== '/login' && parsedURL !== '/register' && page !== Error404) {
+    if (parsedURL !== '/login' && parsedURL !== '/register' && page !== Error404 && parsedURL !== '/') {
         // See if user is logged in
         if (token === null) {
             window.location.replace('/public/#/login');
             content.innerHTML = await page.render();
             await page.after_render();
-        } 
-    } 
+        }
+    }
 
     if (parsedURL === '/login' || parsedURL === '/register' || page === Error404) {
         // See if user is logged in
