@@ -2,17 +2,16 @@ import {AUTH_START, AUTH_SUCCESS, AUTH_FAILED, AUTH_LOGOUT} from "../actionTypes
 import  { store } from '../../index.js';
 
 export const authStart = () => {
-    console.log("authStart() is called");
     return {
         type: AUTH_START
     };
 };
 
-export const authSuccess = (idToken, userId, email) => {
+export const authSuccess = (idToken, email) => {
+    console.log("Dispatching auth success...");
     return {
         type: AUTH_SUCCESS,
         idToken: idToken,
-        userId: userId,
         email: email
     };
 };
@@ -27,7 +26,6 @@ export const authFailed = (error) => {
 export const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
-    localStorage.removeItem('memberId');
     return {
         type: AUTH_LOGOUT
     };
@@ -36,29 +34,31 @@ export const logout = () => {
 
 export const auth = (email, password) => {
     store.dispatch(authStart());
-    let statusOk = false;
-    fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAg6_U0miWrh_L9QbIzJMXlLAc_wlSQmiI', {
+    let status = false;
+    fetch('http://localhost:8080/a2backend/api/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify({
             email: email,
             password: password,
-            returnSecureToken: true
         })
-    }).then(json => {
-        statusOk = json.ok;
-        return json.json();
     }).then(response => {
-        if (statusOk) {
-            const expirationDate = new Date(new Date().getTime() + response.expiresIn * 1000);
-            let decoded = parseJwt(response.idToken);
+        status = response.status
+        return response.text();
+    }).then(data => {
+        if (status) {
+            let decoded = parseJwt(data);
+            console.log(decoded);
+            const expirationDate = new Date(new Date().getTime() + 10000000);
             // TODO Might want to change to cookies if this gets "bigger"
-            localStorage.setItem('token', response.idToken);
+            console.log("Storing in localstorage");
+            localStorage.setItem('token', data);
             localStorage.setItem('expirationDate', expirationDate);
-            localStorage.setItem('memberId', response.localId);
-            store.dispatch(authSuccess(response.idToken, response.localId, decoded.email));
+            store.dispatch(authSuccess(data.idToken, decoded.sub));
+            console.log("Trying to redirect...");
             // Redirect user to homepage
             window.location.replace('/public/#/');
         }
@@ -76,9 +76,10 @@ export const authCheckState = () => {
         if (expirationDate <= new Date()) {
             store.dispatch(logout());
         } else {
-            const userId = localStorage.getItem('userId');
+            
             let decoded = parseJwt(token);
-            store.dispatch(authSuccess(token, userId, decoded.email));
+            console.log(decoded);
+            store.dispatch(authSuccess(token, decoded.sub));
         }
     }
 }

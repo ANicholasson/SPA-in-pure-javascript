@@ -9,8 +9,8 @@ let Register = {
                         <h2 class="center-align form-header">Create User</h2>
                         <div class="row">
                             <div class="input-field col s12">
-                                <input id="first_name" type="text" class="validate">
-                                <label for="first_name">Full Name</label>
+                                <input id="name" type="text" class="validate">
+                                <label for="name">Full Name</label>
                             </div>
                         </div>
                         <div class="row">
@@ -31,6 +31,16 @@ let Register = {
                                 <label for="password">Password</label>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="postal_code" type="number" class="validate">
+                                <label for="postal_code">Postnummer</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="city" type="text" class="validate">
+                                <label for="city">By</label>
+                            </div>
+                        </div>
                         <a id="register-submit-btn" class="submit-btn waves-effect waves-light blue btn-large">
                             <i class="material-icons left">send</i>Create User
                         </a>
@@ -45,42 +55,48 @@ let Register = {
     after_render : async () => {
         document.getElementById('register-submit-btn').addEventListener("click", (event) => {
             event.preventDefault();
+            let name = document.getElementById("name").value;
+            let username = document.getElementById("username").value;
             let email = document.getElementById("email").value;
             let password = document.getElementById("password").value;
+            let postalCode = document.getElementById("postal_code").value;
+            let city = document.getElementById("city").value;
             console.log("event triggered");
-            registerRequest(email, password);
+            registerRequest(name, username,email, password, postalCode, city);
         });
         addEventListener("keyup", (event) => {
             if (event.keyCode === 13) {
                 event.preventDefault();
+                let name = document.getElementById("name").value;
+                let username = document.getElementById("username").value;
                 let email = document.getElementById("email").value;
                 let password = document.getElementById("password").value;
+                let postalCode = document.getElementById("postal_code").value;
+                let city = document.getElementById("city").value;
                 console.log("event triggered");
-                registerRequest(email, password);
+                registerRequest(name, username, email, password, postalCode, city);
             }
         })
     }
 }
 
-function registerRequest(email, password) {
-    console.log("function fired....");
-    let statusOk = false;
-    fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAg6_U0miWrh_L9QbIzJMXlLAc_wlSQmiI', {
+function registerRequest(name, username, email, password, postalCode, city) {
+    fetch('http://localhost:8080/a2backend/api/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+            name: name,
+            username: username,
             email: email,
             password: password,
-            returnSecureToken: true
+            postalCode: postalCode,
+            city: city
         })
-    }).then(json => {
-        statusOk = json.ok;
-        return json.json();
     }).then(resp => {
         console.log(resp);
-        if (statusOk) {
+        if (resp.ok) {
             auth(email, password);
         }
     }).catch(err => {

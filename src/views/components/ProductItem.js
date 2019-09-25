@@ -1,8 +1,8 @@
-const ProductItem = (href, img, name, price, desc, seller) => {
+const ProductItem = (href, name, price, desc, dateCreated, seller) => {
     return (/*html*/`
         <div class="row product-item">
             <div class="col m3 s12 custom-wrapper valign-wrapper center-align add-height">
-                <img class="product-img center-align materialboxed black-text" width="650" src="${img}" alt="image of product">
+                <img class="product-img center-align materialboxed black-text" width="650" src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png?v=1530129081" alt="image of product">
             </div>
             <a class="product-wrapper" href="#/product/${href}">
             <div class="col m9 s12">
@@ -12,6 +12,7 @@ const ProductItem = (href, img, name, price, desc, seller) => {
                         <p class="product-price black-text">${price} kr</p>
                         <p class="product-desc black-text">${desc}</p>
                         <p class="grey-text text-darken-3">Seller: ${seller}</p> 
+                        <p class="grey-text text-darken-3">Date Created: ${dateCreated}</p>
                     </div>
                 </div>
             </div>

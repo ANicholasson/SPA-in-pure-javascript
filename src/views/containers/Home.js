@@ -31,10 +31,19 @@ let Home = {
         document.getElementById('new-product-btn').innerHTML = btn;
 
         let content = "";
-        getAllPosts().forEach(post => {
-            content += ProductItem(post.id, post.img[0], post.name, post.price, post.desc, post.seller);
+        fetch("http://localhost:8080/a2backend/api/posts", {
+            method: "GET"
+        }).then(json => { 
+            console.log(json);
+            return json.json()
+        })
+        .then(data => {
+            console.log(data);
+            data.forEach(post => {
+                content += ProductItem(post.id, post.name, post.price, post.desc, post.dateCreated, post.user.email);
+            });
+            document.getElementById('posts-content').innerHTML = content;
         });
-        document.getElementById('posts-content').innerHTML = content;
     }
 }
 

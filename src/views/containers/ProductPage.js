@@ -5,9 +5,6 @@ let slideIndex = 1;
 
 let ProductPage = {
     render : async () => {
-        let url = Utils.parseRequestURL();
-        let post = getPost(url.id);
-
         return (/*html*/ `
             <div class="container">
                 <div class="carousel-style">
@@ -26,22 +23,37 @@ let ProductPage = {
                 <div class="product-section">
                     <a class="waves-effect green submit-btn waves-light btn-large">Buy</a>
                 </div>
-                <h3><b>${post.name}</b></h3>
-                <h5><b>${post.price} kr</b></h5>
-                <p class="product-desc">${post.desc}</p>
-                <p class="grey-text text-darken-3">Seller: ${post.seller}</p> 
+                <h3 id="post_name"><b></b></h3>
+                <h5 id="post_price"><b> kr</b></h5>
+                <p id="post_desc" class="product-desc"></p>
+                <p id="post_seller" class="grey-text text-darken-3">Seller:</p> 
+                <p id="post_date" class="grey-text text-darken-3">Seller: </p> 
             </div>
         `);
     },
     after_render: async () => {
         let url = Utils.parseRequestURL();
+        fetch("http://localhost:8080/a2backend/api/" + url.id, {
+            method: "POST"
+        }).then(json => {
+            console.log(json);
+            return json.json();
+        }).then(post => {
+            document.getElementById("post_name").innerHTML = post.name;
+            document.getElementById("post_price").innerHTML = post.price;
+            document.getElementById("post_desc").innerHTML = post.desc;
+            document.getElementById("post_seller").innerHTML = post.user.email;
+            document.getElementById("post_date").innerHTML = post.dateCreated;
+        });
+        
+        /* 
         let post = getPost(url.id);
         let imgs = post.img;
         let dispImgs = '';
         for (let img in imgs) {
             dispImgs += createImg(imgs[img]);
-        }
-        document.getElementById('disp-slide').innerHTML = dispImgs;
+        } */
+        document.getElementById('disp-slide').innerHTML = '<img src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png?v=1530129081"/>';
 
         showSlides(slideIndex);
 

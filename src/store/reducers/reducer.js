@@ -2,7 +2,6 @@ import {AUTH_START, AUTH_SUCCESS, AUTH_FAILED, AUTH_LOGOUT} from '../actionTypes
 
 const initialState = {
     token: null,
-    userId: null,
     email: null,
     error: null,
     loading: false
@@ -19,7 +18,6 @@ const authReducer = (state = initialState, action) => {
         case AUTH_SUCCESS:
             return {
                 token: action.idToken,
-                userId: action.userId,
                 email: action.email,
                 error: null,
                 loading: false

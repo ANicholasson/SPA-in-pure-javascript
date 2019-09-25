@@ -121,8 +121,18 @@ let NewProduct = {
             }
             if (name.trim(' ') !== '' && price !== '' && desc.trim(' ' !== '')) {
                 addToPosts(newPost);
-                clearList();
-                window.location.replace("/public/#/");
+                fetch("http://localhost:8080/a2backend/api/create-post", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(newPost)
+                }).then(response => {
+                    console.log(response);
+                    clearList();
+                    window.location.replace("/public/#/");
+                });
             }
         });
 
