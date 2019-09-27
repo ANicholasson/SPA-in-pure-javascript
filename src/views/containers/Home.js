@@ -1,5 +1,6 @@
 import ProductItem from '../components/ProductItem.js';
 import { getAllPosts } from '../../dummy/Posts.js';
+import { getImgPathFromUrl } from '../../util/util.js';
 
 let Home = {
     render : async () => {
@@ -35,12 +36,13 @@ let Home = {
             method: "GET"
         }).then(json => { 
             console.log(json);
-            return json.json()
+            return json.json();
         })
         .then(data => {
             console.log(data);
             data.forEach(post => {
-                content += ProductItem(post.id, post.name, post.price, post.desc, post.dateCreated, post.user.email);
+                
+                content += ProductItem(post.id, post.name, post.price, post.desc, getImgPathFromUrl(post.images[0].subpath), post.dateCreated, post.user.email);
             });
             document.getElementById('posts-content').innerHTML = content;
         });

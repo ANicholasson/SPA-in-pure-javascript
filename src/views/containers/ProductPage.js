@@ -1,5 +1,6 @@
 import Utils from '../../util/RouterUtils.js';
 import { getPost } from '../../dummy/Posts.js';
+import { getImgPathFromUrl } from '../../util/util.js';
 
 let slideIndex = 1;
 
@@ -39,30 +40,31 @@ let ProductPage = {
             console.log(json);
             return json.json();
         }).then(post => {
+            console.log(post);
             document.getElementById("post_name").innerHTML = post.name;
             document.getElementById("post_price").innerHTML = post.price;
             document.getElementById("post_desc").innerHTML = post.desc;
             document.getElementById("post_seller").innerHTML = post.user.email;
             document.getElementById("post_date").innerHTML = post.dateCreated;
-        });
+
+            let dispImgs = '';
+            let imgArr = post.images;
+            for (let img in imgArr) {
+                console.log(imgArr[img].subpath);
+                dispImgs += createImg(getImgPathFromUrl(imgArr[img].subpath));
+            }
+            console.log(dispImgs);
+            document.getElementById('disp-slide').innerHTML = dispImgs;
         
-        /* 
-        let post = getPost(url.id);
-        let imgs = post.img;
-        let dispImgs = '';
-        for (let img in imgs) {
-            dispImgs += createImg(imgs[img]);
-        } */
-        document.getElementById('disp-slide').innerHTML = '<img src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png?v=1530129081"/>';
+            showSlides(slideIndex);
 
-        showSlides(slideIndex);
-
-        document.getElementById('prev-btn').addEventListener('click', () => {
-            showSlides(slideIndex += -1);
-        });
-        document.getElementById('next-btn').addEventListener('click', () => {
-            showSlides(slideIndex += 1);
-        });   
+            document.getElementById('prev-btn').addEventListener('click', () => {
+                showSlides(slideIndex += -1);
+            });
+            document.getElementById('next-btn').addEventListener('click', () => {
+                showSlides(slideIndex += 1);
+            });  
+        });  
     },   
 }
 
@@ -77,11 +79,13 @@ function createImg(img) {
 function showSlides(n) {
     var i;
     var slides = document.getElementsByClassName("mySlides");
+    console.log(slides);
     if (n > slides.length) { slideIndex = 1 }
     if (n < 1) { slideIndex = slides.length }
     for (i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";
     }
+    console.log(slides[slideIndex - 1]);
     slides[slideIndex - 1].style.display = "block";
 }
 

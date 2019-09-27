@@ -57,7 +57,7 @@ export const auth = (email, password) => {
             console.log("Storing in localstorage");
             localStorage.setItem('token', data);
             localStorage.setItem('expirationDate', expirationDate);
-            store.dispatch(authSuccess(data.idToken, decoded.sub));
+            store.dispatch(authSuccess(data.idToken, decoded.sub, decoded.userId));
             console.log("Trying to redirect...");
             // Redirect user to homepage
             window.location.replace('/public/#/');
@@ -79,7 +79,7 @@ export const authCheckState = () => {
             
             let decoded = parseJwt(token);
             console.log(decoded);
-            store.dispatch(authSuccess(token, decoded.sub));
+            store.dispatch(authSuccess(token, decoded.sub, decoded.userId));
         }
     }
 }

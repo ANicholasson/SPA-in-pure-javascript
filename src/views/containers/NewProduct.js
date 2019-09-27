@@ -69,7 +69,10 @@ let NewProduct = {
             </div>
         `);
     },
-    after_render: () => { 
+    after_render: async () => { 
+        // File input change
+        let fileArr = document.getElementById('file-input').files;
+        
         document.getElementById('delete-btn').addEventListener('click', () => {
             let images = document.getElementsByClassName('img-preview');
             let imgArr = [];
@@ -79,6 +82,19 @@ let NewProduct = {
             imgArr.forEach(img => {
                 img.addEventListener('click', () => {
                     deleteImage(imgArr.indexOf(img));
+
+                    let fileListToSend = [];
+                    Array.from(fileArr).forEach(file => { 
+                        fileListToSend.push(file);
+                    });
+                    // Delete file from new array
+                    fileListToSend.splice(imgArr.indexOf(img), 1);
+
+                    fileArr = fileListToSend;
+
+                    console.log(fileListToSend);
+
+                    console.log(fileArr);
                     let content = '';
                     getAllImages().forEach(img => {
                         content += previewImage(img);
@@ -88,12 +104,13 @@ let NewProduct = {
             });
         });
 
-        // File input change
-        let fileArr = document.getElementById('file-input').files;
         document.getElementById('file-input').addEventListener('change', () => {
+            // File input change
+            fileArr = document.getElementById('file-input').files;
+            console.log(fileArr);
             clearList();
-            for (let file in fileArr) {
-                setupReader(fileArr[file]);
+            for (let i = 0; i < fileArr.length; i++) {
+                setupReader(fileArr[i]);
             }
         })
 
@@ -111,23 +128,33 @@ let NewProduct = {
                     arr[img] = getAllImages()[img];
                 }
             }
+            
+            let formData = new FormData();
+            formData.append("name", name);
+            formData.append("price", price);
+            formData.append("desc", desc);
+            formData.append("seller", store.getState().email);
+            if (fileArr) {
+                for (let i = 0; i < fileArr.length; i++) {
+                    formData.append("image", fileArr[i]);
+                }
+            }
+
+            /* Old but gold
             let newPost = {
                 id: getNewId(),
                 name: name,
-                img: arr,
+                img: fileArr,
                 price: price,
                 desc: desc,
                 seller: store.getState().email
-            }
+            } */
             if (name.trim(' ') !== '' && price !== '' && desc.trim(' ' !== '')) {
-                addToPosts(newPost);
-                fetch("http://localhost:8080/a2backend/api/create-post", {
+                //addToPosts(newPost);
+                fetch("http://localhost:8080/a2backend/api/create-post-with-images", {
                     method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
                     credentials: 'include',
-                    body: JSON.stringify(newPost)
+                    body: formData
                 }).then(response => {
                     console.log(response);
                     clearList();
@@ -138,6 +165,7 @@ let NewProduct = {
 
         // On Clear
         document.getElementById('clear-btn').addEventListener('click', () => {
+            fileArr = [];
             clearList();
             document.getElementById("images-to-show").innerHTML = '';
         });
@@ -157,9 +185,7 @@ function setupReader(file) {
     });
     if (file) {
         reader.readAsDataURL(file);
-    } 
-
-    
+    }  
 }
 
 function previewImage(image) {
